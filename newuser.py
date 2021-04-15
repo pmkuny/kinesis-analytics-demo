@@ -7,7 +7,7 @@ import botocore.exceptions
 
 g_api_endpoint = "https://randomuser.me/api"
 g_s3_client = boto3.client("s3")
-g_firehose_client = boto3.client("firehose")
+g_firehose_client = boto3.client("firehose", region_name='us-west-2')
 g_firehose_role_arn = 'arn:aws:iam::695507447459:role/KinesisFirehosetoS3'
 
 
@@ -19,8 +19,7 @@ def create_firehose_bucket(bucket_name):
     
     
 def create_firehose_delivery_stream(delivery_stream_name,destination_bucket):
-    if destination_bucket == None:
-        destination_bucket = create_firehose_bucket("firehose")
+    destination_bucket = create_firehose_bucket("firehose")
     
     if delivery_stream_name == None:
         delivery_stream_name = 'firehoseds-' + '{}'.format(uuid.uuid4())
